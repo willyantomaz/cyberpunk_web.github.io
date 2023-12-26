@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cyberpunk Characters</title>
+    <meta charset="UTF-8">
+    
+    <style>
+        body {
+            background-color: #0D0C1D;
+            color: #0DF9EA;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        h1 {
+            text-align: center;
+            width: 100%;
+        }
+        .character-card {
+            background-color: #1F1E33;
+            border: 2px solid #0DF9EA;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            width: 700px; /* largura desejada do retângulo */
+        }
+    </style>
+</head>
+<body>
+
+<h1>Listagem de Personagens</h1>
+
+<div id="listaPersonagens">
+    <!-- Aqui serão exibidos os personagens -->
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Função para criar e adicionar os cards na página
+    function adicionarCard(personagem, listaPersonagens) {
+        const characterCard = document.createElement('div');
+        characterCard.classList.add('character-card');
+        characterCard.innerHTML = `
+            <p>Nome: ${personagem.nome}</p>
+            <p>Pontos: ${personagem.pontos}</p>
+            <p>Papel: ${personagem.papel}</p>
+            <p>Desenho: ${personagem.desenhoPers}</p>
+            <div class="atributos" style="display: none;">
+                <p>Inteligência: ${personagem.atributos.inteligencia}</p>
+                <p>Reflexo: ${personagem.atributos.reflexo}</p>
+                <p>Habilidade_tecnica: ${personagem.atributos.habilidade_tecnica}</p>
+                <p>Habilidade_tecnica: ${personagem.atributos.habilidade_tecnica}</p>
+                <p>Autocontrole: ${personagem.atributos.autocontrole}</p>
+                <p>Atratividade: ${personagem.atributos.atratividade}</p>
+                <p>Sorte: ${personagem.atributos.sorte}</p>
+                <p>Tipo_corporal: ${personagem.atributos.tipo_corporal}</p>
+                <p>Empatia: ${personagem.atributos.empatia}</p>
+            </div>
+        `;
+        characterCard.addEventListener('click', function () {
+            const atributosDiv = characterCard.querySelector('.atributos');
+            if (atributosDiv.style.display === 'none') {
+                atributosDiv.style.display = 'block';
+            } else {
+                atributosDiv.style.display = 'none';
+            }
+        });
+        listaPersonagens.appendChild(characterCard);
+    }
+
+    // Função para carregar e exibir os personagens
+    function carregarPersonagens() {
+
+        // Fazendo requisição GET para a API
+        fetch('http://localhost:8080/personagem/get')
+            .then(response => response.json())
+            .then(data => {
+                const listaPersonagens = document.getElementById('listaPersonagens');
+
+                // Limpa a lista antes de adicionar os novos personagens
+                listaPersonagens.innerHTML = '';
+
+                // Itera sobre os dados recebidos e os exibe na lista
+                data.forEach(personagem => {
+                    adicionarCard(personagem, listaPersonagens);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar personagens:', error));
+    }
+
+    carregarPersonagens();
+});
+
+
+</script>
+
+</body>
+</html>

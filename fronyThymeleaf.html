@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Title</title>
+    <style>
+        body {
+            background-color: #0D0C1D;
+            color: #0DF9EA;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        center {
+            margin-top: 50px;
+        }
+        form {
+            width: 60%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(13, 249, 234, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label, input, select {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+        }
+        input[type="submit"],
+            .link-button{
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #FF00FF;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            width: 300px;
+            box-sizing: border-box;
+        }
+        input[type="submit"]:hover,
+         .link-button:hover{
+            background-color: #ff572;
+        }
+        .atributos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .atributo {
+            width: calc(32% - 10px);
+            margin-bottom: 12px;
+        }
+        /* Estilo para o vídeo de fundo */
+        #video-background {
+             position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: 100%;
+            max-height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(80%);
+
+
+        }
+    </style>
+<body>
+<video autoplay loop muted id="video-background">
+    <source src="cyberpunk.mp4" type="video/mp4">
+    <!-- Fallback para navegadores que não suportam vídeo -->
+    Your browser does not support the video tag.
+</video>
+<center>
+    <form id="formulario" action="http://localhost:8080/personagem/post" method="post" onsubmit="return validarPontos()">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" placeholder="Nome" required>
+
+        <label for="pontos">Pontos</label>
+        <input type="number" id="pontos" name="pontos" placeholder="Pontos" required>
+
+            <label for="papel">Papel
+                <select type="text" id="papel" name="papel" title="Selecione um papel">
+                    <option value="SOLO">Solo</option>
+                    <option value="ROQUEIRO">Roqueiro</option>
+                    <option value="NETRUNNER">Netrunner</option>
+                    <option value="TECNICO">Técnico</option>
+                    <option value="NOMADE">Nômade</option>
+                    <option value="ATRAVESSADOR">Atravessador</option>
+                    <option value="POLICIA">Polícia</option>
+                    <option value="EXECUTIVO">Executivo</option>
+                    <option value="MIDIA">Mídia</option>
+                    <option value="TECNICO_MEDICO">Técnico Médico</option>
+                </select>
+            </label>
+
+            <label for="desenhoPers">Desenho</label>
+            <input type="text" id="desenhoPers" name="desenhoPers" placeholder="Desenho">
+
+
+        <fieldset class="atributos">
+            <legend>Atributos do Personagem</legend>
+            <div class="atributo">
+                <label for="inteligencia">INT</label>
+                <input type="number" min="2" max="10" id="inteligencia" name="atributos.inteligencia" placeholder="inteligencia" title="O valor deve estar entre 2 e 10" required>
+            </div>
+            <div class="atributo">
+                <label for="reflexo">REF</label>
+                <input type="number" min="2" max="10" id="reflexo" name="atributos.reflexo" placeholder="reflexo" title="O valor deve estar entre 2 e 10"required>
+            </div>
+            <div class="atributo">
+                <label for="habilidade_tecnica">TEC</label>
+                <input type="number" min="2" max="10" id="habilidade_tecnica" name="atributos.habilidade_tecnica" placeholder="habilidade_tecnica" title="O valor deve estar entre 2 e 10"required>
+            </div>
+            <div class="atributo">
+                <label for="autocontrole">AUCON</label>
+                <input type="number" min="2" max="10" id="autocontrole" name="atributos.autocontrole" placeholder="autocontrole" title="O valor deve estar entre 2 e 10" required>
+            </div>
+            <div class="atributo">
+                <label for="atratividade">ATR</label>
+                <input type="number" min="2" max="10" id="atratividade" name="atributos.atratividade" placeholder="atratividade" title="O valor deve estar entre 2 e 10" required>
+            </div>
+            <div class="atributo">
+                <label for="sorte">SOR</label>
+                <input type="number" min="2" max="10" id="sorte" name="atributos.sorte" placeholder="sorte" title="O valor deve estar entre 2 e 10" required>
+            </div>
+            <div class="atributo">
+                <label for="capacidade_de_movimento">MOV</label>
+                <input type="number" min="2" max="10"  id="capacidade_de_movimento" name="atributos.capacidade_de_movimento" placeholder="capacidade_de_movimento" title="O valor deve estar entre 2 e 10" required>
+            </div>
+            <div class="atributo">
+                <label for="tipo_corporal">TCO</label>
+                <input type="number"  min="2" max="10" id="tipo_corporal" name="atributos.tipo_corporal" placeholder="tipo_corporal" title="O valor deve estar entre 2 e 10" required>
+            </div>
+
+            <div class="atributo" >
+                <label for="empatia">EMP</label>
+                <input type="number" min="2" max="10" id="empatia" name="atributos.empatia" placeholder="empatia" title="O valor deve estar entre 2 e 10" required>
+            </div>
+        </fieldset>
+
+        <br>
+        <input type="submit" value="Criar Personagem" >
+        <a href="ListarPersonagens.html" class="link-button">
+            Mostrar Personagens
+        </a>
+    </form>
+
+
+</center>
+
+<script src="Script.js"></script>
+</body>
+</html>
